@@ -1,0 +1,6 @@
+.env
+*.exe
+vendor/
+node_modules/
+dist/
+.DS_Store

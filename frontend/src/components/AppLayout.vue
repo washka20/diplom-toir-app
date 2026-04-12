@@ -20,7 +20,7 @@ import AppSidebar from './AppSidebar.vue'
 .app-main {
   flex: 1;
   padding: 24px 32px;
-  background: #f5f6fa;
+  background: #f1f5f9;
   overflow-y: auto;
 }
 </style>

@@ -178,7 +178,7 @@ const fields: { key: keyof Equipment; label: string }[] = [
 
 <style scoped>
 .detail-page {
-  max-width: 800px;
+  width: 100%;
 }
 
 .back-btn {
@@ -187,6 +187,7 @@ const fields: { key: keyof Equipment; label: string }[] = [
   color: #2563eb;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   padding: 0;
   margin-bottom: 16px;
 }
@@ -215,7 +216,7 @@ const fields: { key: keyof Equipment; label: string }[] = [
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .detail-header h1 {
@@ -225,21 +226,21 @@ const fields: { key: keyof Equipment; label: string }[] = [
 .detail-header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .detail-card {
   background: #fff;
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 }
 
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (max-width: 600px) {
@@ -251,7 +252,7 @@ const fields: { key: keyof Equipment; label: string }[] = [
 .detail-field {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .detail-label {
@@ -299,7 +300,7 @@ const fields: { key: keyof Equipment; label: string }[] = [
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 @media (max-width: 600px) {
@@ -311,11 +312,11 @@ const fields: { key: keyof Equipment; label: string }[] = [
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .form-field label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #374151;
 }
@@ -323,12 +324,19 @@ const fields: { key: keyof Equipment; label: string }[] = [
 .form-field input,
 .form-field select,
 .form-field textarea {
-  padding: 8px 10px;
+  height: 42px;
+  padding: 10px 12px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #1e293b;
   background: #fff;
+  font-family: inherit;
+}
+
+.form-field textarea {
+  height: auto;
+  min-height: 80px;
 }
 
 .form-field input:focus,
@@ -347,14 +355,15 @@ const fields: { key: keyof Equipment; label: string }[] = [
   grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  padding-top: 4px;
+  gap: 10px;
+  padding-top: 8px;
 }
 
 .btn {
-  padding: 8px 16px;
+  height: 40px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -376,12 +385,12 @@ const fields: { key: keyof Equipment; label: string }[] = [
 }
 
 .btn-secondary {
-  background: #f3f4f6;
+  background: #fff;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
 .btn-secondary:hover {
-  background: #e5e7eb;
+  background: #f3f4f6;
 }
 </style>

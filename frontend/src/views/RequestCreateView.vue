@@ -137,7 +137,7 @@ async function handleSubmit() {
 
 <style scoped>
 .create-page {
-  max-width: 640px;
+  width: 100%;
 }
 
 .back-btn {
@@ -146,6 +146,7 @@ async function handleSubmit() {
   color: #2563eb;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   padding: 0;
   margin-bottom: 16px;
 }
@@ -156,9 +157,9 @@ async function handleSubmit() {
 
 .form-card {
   background: #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 }
 
 .form-error {
@@ -172,7 +173,7 @@ async function handleSubmit() {
 }
 
 .form-field {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .form-field label {
@@ -184,17 +185,31 @@ async function handleSubmit() {
 }
 
 .form-field input,
-.form-field select,
-.form-field textarea {
+.form-field select {
   width: 100%;
-  padding: 10px 12px;
+  height: 42px;
+  padding: 10px 14px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #1e293b;
   background: #fff;
   box-sizing: border-box;
   font-family: inherit;
+}
+
+.form-field textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #fff;
+  box-sizing: border-box;
+  font-family: inherit;
+  resize: vertical;
 }
 
 .form-field input:focus,
@@ -208,14 +223,15 @@ async function handleSubmit() {
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 24px;
 }
 
 .btn {
-  padding: 10px 20px;
+  height: 40px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -237,12 +253,12 @@ async function handleSubmit() {
 }
 
 .btn-secondary {
-  background: #f3f4f6;
+  background: #fff;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
 .btn-secondary:hover {
-  background: #e5e7eb;
+  background: #f3f4f6;
 }
 </style>

@@ -73,13 +73,13 @@ onMounted(async () => {
 
 <style scoped>
 .dashboard-page {
-  max-width: 960px;
+  width: 100%;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (max-width: 768px) {

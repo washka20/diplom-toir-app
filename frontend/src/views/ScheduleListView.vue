@@ -168,14 +168,14 @@ async function handleCreate() {
 
 <style scoped>
 .schedules-page {
-  max-width: 1100px;
+  width: 100%;
 }
 
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .page-header h1 {
@@ -191,14 +191,17 @@ async function handleCreate() {
 .overdue {
   color: #dc2626;
   font-weight: 600;
+  background: #fef2f2;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 .form-card {
   background: #fff;
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 }
 
 .form-title {
@@ -221,7 +224,7 @@ async function handleCreate() {
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 @media (max-width: 600px) {
@@ -233,11 +236,11 @@ async function handleCreate() {
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .form-field label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #374151;
 }
@@ -245,13 +248,19 @@ async function handleCreate() {
 .form-field input,
 .form-field select,
 .form-field textarea {
-  padding: 8px 10px;
+  height: 42px;
+  padding: 10px 12px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #1e293b;
   background: #fff;
   font-family: inherit;
+}
+
+.form-field textarea {
+  height: auto;
+  min-height: 80px;
 }
 
 .form-field input:focus,
@@ -266,13 +275,14 @@ async function handleCreate() {
   grid-column: 1 / -1;
   display: flex;
   justify-content: flex-end;
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 .btn {
-  padding: 8px 16px;
+  height: 40px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;

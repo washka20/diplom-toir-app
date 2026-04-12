@@ -94,8 +94,9 @@ function nextPage() {
 .data-table-wrapper {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
   overflow: hidden;
+  width: 100%;
 }
 
 .data-table {
@@ -105,21 +106,21 @@ function nextPage() {
 
 .data-table th {
   text-align: left;
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-size: 12px;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .data-table td {
   padding: 12px 16px;
   font-size: 14px;
   color: #334155;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .data-table-row {
@@ -134,31 +135,34 @@ function nextPage() {
 .data-table-empty {
   text-align: center;
   color: #94a3b8;
-  padding: 32px 16px;
+  padding: 40px 16px;
+  font-size: 15px;
 }
 
 .data-table-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 16px;
+  padding: 14px 16px;
   border-top: 1px solid #e2e8f0;
 }
 
 .pagination-btn {
-  padding: 6px 14px;
+  padding: 8px 16px;
   background: #fff;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 13px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
   color: #374151;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .pagination-btn:hover:not(:disabled) {
   background: #f3f4f6;
+  border-color: #9ca3af;
 }
 
 .pagination-btn:disabled {
@@ -167,7 +171,8 @@ function nextPage() {
 }
 
 .pagination-info {
-  font-size: 13px;
+  font-size: 14px;
   color: #64748b;
+  font-weight: 500;
 }
 </style>

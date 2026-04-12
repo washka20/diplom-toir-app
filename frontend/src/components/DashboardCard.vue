@@ -23,10 +23,15 @@ withDefaults(defineProps<Props>(), {
 <style scoped>
 .dashboard-card {
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
   display: flex;
   overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-card-indicator {
@@ -35,17 +40,19 @@ withDefaults(defineProps<Props>(), {
 }
 
 .dashboard-card-body {
-  padding: 16px 20px;
+  padding: 24px;
 }
 
 .dashboard-card-title {
-  font-size: 13px;
+  font-size: 14px;
   color: #64748b;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .dashboard-card-value {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 700;
   color: #1e293b;
 }

@@ -282,7 +282,7 @@ const priorityLabels: Record<string, string> = {
 
 <style scoped>
 .detail-page {
-  max-width: 800px;
+  width: 100%;
 }
 
 .back-btn {
@@ -291,6 +291,7 @@ const priorityLabels: Record<string, string> = {
   color: #2563eb;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 500;
   padding: 0;
   margin-bottom: 16px;
 }
@@ -320,7 +321,7 @@ const priorityLabels: Record<string, string> = {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .detail-header h1 {
@@ -336,11 +337,11 @@ const priorityLabels: Record<string, string> = {
   display: flex;
   align-items: center;
   gap: 0;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   background: #fff;
-  border-radius: 8px;
-  padding: 16px 20px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 18px 24px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 }
 
 .timeline-step {
@@ -364,8 +365,8 @@ const priorityLabels: Record<string, string> = {
 }
 
 .timeline-dot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: #e2e8f0;
   flex-shrink: 0;
@@ -385,7 +386,7 @@ const priorityLabels: Record<string, string> = {
 }
 
 .timeline-label {
-  font-size: 13px;
+  font-size: 14px;
   color: #94a3b8;
   white-space: nowrap;
 }
@@ -402,10 +403,10 @@ const priorityLabels: Record<string, string> = {
 .detail-card,
 .actions-card {
   background: #fff;
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07);
 }
 
 .section-title {
@@ -418,7 +419,7 @@ const priorityLabels: Record<string, string> = {
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (max-width: 600px) {
@@ -430,7 +431,7 @@ const priorityLabels: Record<string, string> = {
 .detail-field {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .detail-label {
@@ -467,14 +468,15 @@ const priorityLabels: Record<string, string> = {
 
 .actions-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .btn {
-  padding: 8px 16px;
+  height: 40px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -496,13 +498,13 @@ const priorityLabels: Record<string, string> = {
 }
 
 .btn-secondary {
-  background: #f3f4f6;
+  background: #fff;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
 .btn-secondary:hover {
-  background: #e5e7eb;
+  background: #f3f4f6;
 }
 
 .btn-danger {
@@ -531,11 +533,11 @@ const priorityLabels: Record<string, string> = {
 
 .modal {
   background: #fff;
-  border-radius: 10px;
-  padding: 24px;
+  border-radius: 12px;
+  padding: 28px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  max-width: 440px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 
 .modal-title {
@@ -559,9 +561,10 @@ const priorityLabels: Record<string, string> = {
 
 .form-field select {
   width: 100%;
-  padding: 10px 12px;
+  height: 42px;
+  padding: 10px 14px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #1e293b;
   background: #fff;
@@ -577,6 +580,6 @@ const priorityLabels: Record<string, string> = {
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 10px;
 }
 </style>

@@ -101,14 +101,14 @@ function resetFilters() {
 
 <style scoped>
 .requests-page {
-  max-width: 1100px;
+  width: 100%;
 }
 
 .page-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .page-header h1 {
@@ -117,15 +117,16 @@ function resetFilters() {
 
 .filter-bar {
   display: flex;
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .filter-bar select {
-  padding: 8px 12px;
+  height: 40px;
+  padding: 8px 14px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   color: #1e293b;
   background: #fff;
@@ -144,9 +145,10 @@ function resetFilters() {
 }
 
 .btn {
-  padding: 8px 16px;
+  height: 40px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -163,12 +165,12 @@ function resetFilters() {
 }
 
 .btn-secondary {
-  background: #f3f4f6;
+  background: #fff;
   color: #374151;
   border: 1px solid #d1d5db;
 }
 
 .btn-secondary:hover {
-  background: #e5e7eb;
+  background: #f3f4f6;
 }
 </style>

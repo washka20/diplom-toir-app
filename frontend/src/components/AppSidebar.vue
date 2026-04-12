@@ -75,15 +75,15 @@ function handleLogout() {
 }
 
 .sidebar-header {
-  padding: 20px 16px;
+  padding: 24px 20px;
   border-bottom: 1px solid #334155;
 }
 
 .sidebar-logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .sidebar-user-name {
@@ -96,6 +96,7 @@ function handleLogout() {
   font-size: 12px;
   color: #94a3b8;
   margin-top: 2px;
+  text-transform: capitalize;
 }
 
 .sidebar-nav {
@@ -104,16 +105,17 @@ function handleLogout() {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  border-bottom: 1px solid #334155;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 12px;
+  padding: 12px 20px;
   color: #cbd5e1;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -123,26 +125,27 @@ function handleLogout() {
 }
 
 .sidebar-link.active {
-  background: #3b82f6;
+  background: #2563eb;
   color: #fff;
 }
 
 .sidebar-link-icon {
-  width: 20px;
+  width: 22px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .sidebar-logout {
   margin: 16px;
-  padding: 10px;
+  padding: 12px;
   background: transparent;
   border: 1px solid #475569;
   color: #94a3b8;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.15s, color 0.15s;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .sidebar-logout:hover {

@@ -28,6 +28,7 @@ async function handleSubmit() {
 <template>
   <div class="login-page">
     <form class="login-card" @submit.prevent="handleSubmit">
+      <div class="login-icon">&#9881;</div>
       <h1 class="login-title">ТОиР</h1>
       <p class="login-subtitle">Система управления техническим обслуживанием и ремонтом</p>
 
@@ -72,16 +73,22 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f2f5;
+  background: #f1f5f9;
 }
 
 .login-card {
   background: #fff;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+}
+
+.login-icon {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 8px;
 }
 
 .login-title {
@@ -110,7 +117,7 @@ async function handleSubmit() {
 }
 
 .login-field {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .login-label {
@@ -123,10 +130,11 @@ async function handleSubmit() {
 
 .login-input {
   width: 100%;
-  padding: 10px 12px;
+  height: 44px;
+  padding: 10px 14px;
   border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 15px;
   color: #1e293b;
   background: #fff;
   transition: border-color 0.15s;
@@ -141,12 +149,13 @@ async function handleSubmit() {
 
 .login-button {
   width: 100%;
+  height: 46px;
   padding: 12px;
-  background: #3b82f6;
+  background: #2563eb;
   color: #fff;
   border: none;
-  border-radius: 6px;
-  font-size: 15px;
+  border-radius: 8px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
@@ -154,7 +163,7 @@ async function handleSubmit() {
 }
 
 .login-button:hover:not(:disabled) {
-  background: #2563eb;
+  background: #1d4ed8;
 }
 
 .login-button:disabled {

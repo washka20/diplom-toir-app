@@ -38,7 +38,7 @@ func (r *GormScheduleRepository) Create(ctx context.Context, s *models.Maintenan
 
 func (r *GormScheduleRepository) FindByID(ctx context.Context, id uint) (*models.MaintenanceSchedule, error) {
 	var s models.MaintenanceSchedule
-	if err := r.db.WithContext(ctx).First(&s, id).Error; err != nil {
+	if err := r.db.WithContext(ctx).Preload("Equipment").Preload("Creator").First(&s, id).Error; err != nil {
 		return nil, fmt.Errorf("failed to find schedule by id: %w", err)
 	}
 	return &s, nil
@@ -55,7 +55,7 @@ func (r *GormScheduleRepository) List(ctx context.Context, page, perPage int) ([
 	}
 
 	offset := (page - 1) * perPage
-	if err := query.Offset(offset).Limit(perPage).Order("id ASC").Find(&items).Error; err != nil {
+	if err := query.Preload("Equipment").Preload("Creator").Offset(offset).Limit(perPage).Order("id ASC").Find(&items).Error; err != nil {
 		return nil, 0, fmt.Errorf("failed to list schedules: %w", err)
 	}
 

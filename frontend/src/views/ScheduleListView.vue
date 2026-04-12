@@ -33,7 +33,7 @@ const formLoading = ref(false)
 
 const columns = [
   { key: 'equipment_name', label: 'Оборудование' },
-  { key: 'schedule_type', label: 'Тип ТО', width: '150px' },
+  { key: 'type_name', label: 'Тип ТО', width: '150px' },
   { key: 'interval_days', label: 'Интервал (дни)', width: '130px' },
   { key: 'next_date', label: 'Следующая дата', width: '150px' },
   { key: 'status', label: 'Статус', width: '120px' },
@@ -44,11 +44,13 @@ const totalPages = computed(() => Math.ceil(store.total / 20) || 1)
 const today = new Date().toISOString().split('T')[0]
 
 const tableRows = computed(() =>
-  store.items.map((item) => ({
+  store.items.map((item: Record<string, unknown>) => ({
     ...item,
-    equipment_name: item.equipment?.name ?? '---',
-    next_date: item.next_date ? item.next_date.split('T')[0] : '---',
-    _overdue: item.next_date ? item.next_date.split('T')[0] < today && item.status === 'active' : false,
+    equipment_name: (item.equipment as Record<string, unknown>)?.name ?? '---',
+    type_name: item.type ?? '---',
+    next_date: item.next_date ? String(item.next_date).split('T')[0] : '---',
+    status: item.is_active ? 'active' : 'inactive',
+    _overdue: item.next_date ? String(item.next_date).split('T')[0] < today && item.is_active : false,
   })),
 )
 

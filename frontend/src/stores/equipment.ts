@@ -43,15 +43,18 @@ export const useEquipmentStore = defineStore('equipment', () => {
   }
 
   async function fetchById(id: number | string): Promise<Equipment> {
-    return (await client.get(`/equipment/${id}`)) as unknown as Equipment
+    const res = (await client.get(`/equipment/${id}`)) as unknown as { data: Equipment }
+    return res.data
   }
 
   async function create(data: Partial<Equipment>): Promise<Equipment> {
-    return (await client.post('/equipment', data)) as unknown as Equipment
+    const res = (await client.post('/equipment', data)) as unknown as { data: Equipment }
+    return res.data
   }
 
   async function update(id: number | string, data: Partial<Equipment>): Promise<Equipment> {
-    return (await client.put(`/equipment/${id}`, data)) as unknown as Equipment
+    const res = (await client.put(`/equipment/${id}`, data)) as unknown as { data: Equipment }
+    return res.data
   }
 
   return { items, total, loading, fetchList, fetchById, create, update }

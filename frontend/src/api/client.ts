@@ -25,7 +25,7 @@ client.interceptors.request.use((config) => {
 
 client.interceptors.response.use(
   (response: AxiosResponse<ApiEnvelope>) => {
-    return response.data.data as AxiosResponse
+    return response.data as unknown as AxiosResponse
   },
   (error) => {
     if (error.response?.status === 401) {

@@ -18,8 +18,8 @@ export const useUsersStore = defineStore('users', () => {
   async function fetchList() {
     loading.value = true
     try {
-      const res = (await client.get('/users')) as unknown as User[]
-      items.value = res
+      const res = (await client.get('/users')) as unknown as { data: User[] }
+      items.value = res.data
     } finally {
       loading.value = false
     }
@@ -32,11 +32,13 @@ export const useUsersStore = defineStore('users', () => {
     full_name: string
     role: string
   }): Promise<User> {
-    return (await client.post('/users', data)) as unknown as User
+    const res = (await client.post('/users', data)) as unknown as { data: User }
+    return res.data
   }
 
   async function update(id: number | string, data: Partial<User>): Promise<User> {
-    return (await client.put(`/users/${id}`, data)) as unknown as User
+    const res = (await client.put(`/users/${id}`, data)) as unknown as { data: User }
+    return res.data
   }
 
   return { items, loading, fetchList, create, update }

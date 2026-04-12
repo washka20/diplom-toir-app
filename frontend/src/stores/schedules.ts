@@ -42,7 +42,8 @@ export const useSchedulesStore = defineStore('schedules', () => {
     interval_days: number
     description: string
   }): Promise<MaintenanceSchedule> {
-    return (await client.post('/maintenance-schedules', data)) as unknown as MaintenanceSchedule
+    const res = (await client.post('/maintenance-schedules', data)) as unknown as { data: MaintenanceSchedule }
+    return res.data
   }
 
   return { items, total, loading, fetchList, create }

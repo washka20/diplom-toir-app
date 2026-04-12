@@ -44,7 +44,8 @@ export const useRequestsStore = defineStore('requests', () => {
   }
 
   async function fetchById(id: number | string): Promise<RepairRequest> {
-    return (await client.get(`/repair-requests/${id}`)) as unknown as RepairRequest
+    const res = (await client.get(`/repair-requests/${id}`)) as unknown as { data: RepairRequest }
+    return res.data
   }
 
   async function create(data: {
@@ -53,14 +54,16 @@ export const useRequestsStore = defineStore('requests', () => {
     description: string
     priority: string
   }): Promise<RepairRequest> {
-    return (await client.post('/repair-requests', data)) as unknown as RepairRequest
+    const res = (await client.post('/repair-requests', data)) as unknown as { data: RepairRequest }
+    return res.data
   }
 
   async function update(
     id: number | string,
     data: { status?: string; assigned_to?: number },
   ): Promise<RepairRequest> {
-    return (await client.put(`/repair-requests/${id}`, data)) as unknown as RepairRequest
+    const res = (await client.put(`/repair-requests/${id}`, data)) as unknown as { data: RepairRequest }
+    return res.data
   }
 
   return { items, total, loading, fetchList, fetchById, create, update }

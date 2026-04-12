@@ -92,7 +92,8 @@ async function openAssignModal() {
   showAssignModal.value = true
   if (users.value.length === 0) {
     try {
-      users.value = (await client.get('/users')) as unknown as UserOption[]
+      const res = (await client.get('/users')) as unknown as { data: UserOption[] }
+      users.value = res.data
     } catch {
       actionError.value = 'Не удалось загрузить пользователей'
     }

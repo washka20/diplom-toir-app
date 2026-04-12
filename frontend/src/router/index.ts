@@ -62,6 +62,9 @@ router.beforeEach((to) => {
   const auth = useAuthStore()
 
   if (to.meta.public) {
+    if (to.name === 'login' && auth.isAuthenticated) {
+      return { name: 'dashboard' }
+    }
     return true
   }
 

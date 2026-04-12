@@ -18,7 +18,8 @@ const error = ref('')
 
 onMounted(async () => {
   try {
-    data.value = (await client.get('/dashboard')) as unknown as DashboardData
+    const res = (await client.get('/dashboard')) as unknown as { data: DashboardData }
+    data.value = res.data
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Ошибка загрузки данных'
   } finally {

@@ -25,23 +25,31 @@ func NewUserHandler(repo repository.UserRepository) *UserHandler {
 
 // CreateUserInput представляет тело запроса на создание пользователя.
 type CreateUserInput struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	FullName string `json:"full_name"`
-	Role     string `json:"role"`
+	Username string `json:"username" example:"ivanov"`
+	Email    string `json:"email" example:"ivanov@example.com"`
+	Password string `json:"password" example:"securepass123"`
+	FullName string `json:"full_name" example:"Иванов Иван Иванович"`
+	Role     string `json:"role" example:"technician"`
 }
 
 // UpdateUserInput представляет тело запроса на обновление пользователя.
 type UpdateUserInput struct {
-	Email    string `json:"email"`
-	FullName string `json:"full_name"`
-	Role     string `json:"role"`
-	IsActive *bool  `json:"is_active"`
-	Password string `json:"password"`
+	Email    string `json:"email" example:"new@example.com"`
+	FullName string `json:"full_name" example:"Иванов Иван Иванович"`
+	Role     string `json:"role" example:"engineer"`
+	IsActive *bool  `json:"is_active" example:"true"`
+	Password string `json:"password" example:"newpassword"`
 }
 
-// List обрабатывает GET /api/users.
+// List godoc
+// @Summary Список пользователей
+// @Description Получение списка всех пользователей (только admin)
+// @Tags users
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} response.Response{data=[]models.User}
+// @Failure 500 {object} response.Response
+// @Router /users [get]
 func (h *UserHandler) List(c echo.Context) error {
 	users, err := h.repo.List(c.Request().Context())
 	if err != nil {
@@ -51,7 +59,18 @@ func (h *UserHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Success(users))
 }
 
-// Create обрабатывает POST /api/users.
+// Create godoc
+// @Summary Создание пользователя
+// @Description Создаёт нового пользователя (только admin)
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body CreateUserInput true "Данные пользователя"
+// @Success 201 {object} response.Response{data=models.User}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /users [post]
 func (h *UserHandler) Create(c echo.Context) error {
 	var input CreateUserInput
 	if err := c.Bind(&input); err != nil {
@@ -95,7 +114,20 @@ func (h *UserHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response.Success(user))
 }
 
-// Update обрабатывает PUT /api/users/:id.
+// Update godoc
+// @Summary Обновление пользователя
+// @Description Обновляет данные пользователя (только admin)
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID пользователя"
+// @Param request body UpdateUserInput true "Обновлённые данные"
+// @Success 200 {object} response.Response{data=models.User}
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /users/{id} [put]
 func (h *UserHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

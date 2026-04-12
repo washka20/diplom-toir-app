@@ -29,7 +29,18 @@ func NewScheduleHandler(service ScheduleServiceInterface) *ScheduleHandler {
 	return &ScheduleHandler{service: service}
 }
 
-// Create обрабатывает POST /api/schedules.
+// Create godoc
+// @Summary Создание расписания ТО
+// @Description Создаёт новое расписание планового технического обслуживания
+// @Tags maintenance-schedules
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body models.MaintenanceSchedule true "Данные расписания"
+// @Success 201 {object} response.Response{data=models.MaintenanceSchedule}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /maintenance-schedules [post]
 func (h *ScheduleHandler) Create(c echo.Context) error {
 	var s models.MaintenanceSchedule
 	if err := c.Bind(&s); err != nil {
@@ -47,7 +58,17 @@ func (h *ScheduleHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response.Success(s))
 }
 
-// List обрабатывает GET /api/schedules.
+// List godoc
+// @Summary Список расписаний ТО
+// @Description Получение списка расписаний технического обслуживания с пагинацией
+// @Tags maintenance-schedules
+// @Produce json
+// @Security BearerAuth
+// @Param page query int false "Номер страницы" default(1)
+// @Param per_page query int false "Элементов на странице" default(20)
+// @Success 200 {object} response.Response{data=[]models.MaintenanceSchedule,meta=response.Meta}
+// @Failure 500 {object} response.Response
+// @Router /maintenance-schedules [get]
 func (h *ScheduleHandler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	if page < 1 {
@@ -67,7 +88,19 @@ func (h *ScheduleHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Paginated(items, page, perPage, total))
 }
 
-// Update обрабатывает PUT /api/schedules/:id.
+// Update godoc
+// @Summary Обновление расписания ТО
+// @Description Обновляет расписание планового технического обслуживания
+// @Tags maintenance-schedules
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID расписания"
+// @Param request body models.MaintenanceSchedule true "Обновлённые данные"
+// @Success 200 {object} response.Response{data=models.MaintenanceSchedule}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /maintenance-schedules/{id} [put]
 func (h *ScheduleHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

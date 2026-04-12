@@ -30,7 +30,18 @@ func NewEquipmentHandler(service EquipmentServiceInterface) *EquipmentHandler {
 	return &EquipmentHandler{service: service}
 }
 
-// Create обрабатывает POST /api/equipment.
+// Create godoc
+// @Summary Создание оборудования
+// @Description Создаёт новую единицу оборудования
+// @Tags equipment
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body models.Equipment true "Данные оборудования"
+// @Success 201 {object} response.Response{data=models.Equipment}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /equipment [post]
 func (h *EquipmentHandler) Create(c echo.Context) error {
 	var eq models.Equipment
 	if err := c.Bind(&eq); err != nil {
@@ -48,7 +59,19 @@ func (h *EquipmentHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response.Success(eq))
 }
 
-// List обрабатывает GET /api/equipment.
+// List godoc
+// @Summary Список оборудования
+// @Description Получение списка оборудования с пагинацией и фильтрами
+// @Tags equipment
+// @Produce json
+// @Security BearerAuth
+// @Param page query int false "Номер страницы" default(1)
+// @Param per_page query int false "Элементов на странице" default(20)
+// @Param status query string false "Фильтр по статусу"
+// @Param location query string false "Фильтр по расположению"
+// @Success 200 {object} response.Response{data=[]models.Equipment,meta=response.Meta}
+// @Failure 500 {object} response.Response
+// @Router /equipment [get]
 func (h *EquipmentHandler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	if page < 1 {
@@ -71,7 +94,17 @@ func (h *EquipmentHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Paginated(items, page, perPage, total))
 }
 
-// GetByID обрабатывает GET /api/equipment/:id.
+// GetByID godoc
+// @Summary Получение оборудования по ID
+// @Description Возвращает оборудование по идентификатору
+// @Tags equipment
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID оборудования"
+// @Success 200 {object} response.Response{data=models.Equipment}
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Router /equipment/{id} [get]
 func (h *EquipmentHandler) GetByID(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -86,7 +119,19 @@ func (h *EquipmentHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Success(eq))
 }
 
-// Update обрабатывает PUT /api/equipment/:id.
+// Update godoc
+// @Summary Обновление оборудования
+// @Description Обновляет данные единицы оборудования
+// @Tags equipment
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID оборудования"
+// @Param request body models.Equipment true "Обновлённые данные"
+// @Success 200 {object} response.Response{data=models.Equipment}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /equipment/{id} [put]
 func (h *EquipmentHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -107,7 +152,17 @@ func (h *EquipmentHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Success(eq))
 }
 
-// Delete обрабатывает DELETE /api/equipment/:id.
+// Delete godoc
+// @Summary Удаление оборудования
+// @Description Удаляет единицу оборудования по ID
+// @Tags equipment
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID оборудования"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /equipment/{id} [delete]
 func (h *EquipmentHandler) Delete(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

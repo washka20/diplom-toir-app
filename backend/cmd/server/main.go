@@ -17,9 +17,22 @@ import (
 	"toir-app/internal/repository"
 	"toir-app/internal/services"
 
+	_ "toir-app/docs"
+
 	"github.com/labstack/echo/v4"
 	echomw "github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
+
+// @title ТОиР API
+// @version 1.0
+// @description API веб-приложения для управления техническим обслуживанием и ремонтом оборудования предприятия
+// @host localhost:8080
+// @BasePath /api
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Введите JWT токен в формате: Bearer {token}
 
 func main() {
 	cfg, err := config.Load()
@@ -81,6 +94,9 @@ func main() {
 		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPut, http.MethodDelete},
 		AllowHeaders: []string{echo.HeaderAuthorization, echo.HeaderContentType},
 	}))
+
+	// Swagger
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// Public routes
 	e.POST("/api/auth/login", authHandler.Login)

@@ -1,0 +1,1018 @@
+basePath: /api
+definitions:
+  handlers.CreateRepairRequestInput:
+    properties:
+      description:
+        example: Обнаружен люфт в подшипнике главного вала
+        type: string
+      equipment_id:
+        example: 1
+        type: integer
+      priority:
+        example: high
+        type: string
+      title:
+        example: Замена подшипника
+        type: string
+    type: object
+  handlers.CreateUserInput:
+    properties:
+      email:
+        example: ivanov@example.com
+        type: string
+      full_name:
+        example: Иванов Иван Иванович
+        type: string
+      password:
+        example: securepass123
+        type: string
+      role:
+        example: technician
+        type: string
+      username:
+        example: ivanov
+        type: string
+    type: object
+  handlers.LoginRequest:
+    properties:
+      password:
+        example: password123
+        type: string
+      username:
+        example: engineer
+        type: string
+    type: object
+  handlers.UpdateRepairRequestInput:
+    properties:
+      assigned_to:
+        example: 2
+        type: integer
+      status:
+        example: in_progress
+        type: string
+    type: object
+  handlers.UpdateUserInput:
+    properties:
+      email:
+        example: new@example.com
+        type: string
+      full_name:
+        example: Иванов Иван Иванович
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      password:
+        example: newpassword
+        type: string
+      role:
+        example: engineer
+        type: string
+    type: object
+  handlers.UpdateWorkOrderInput:
+    properties:
+      status:
+        example: in_progress
+        type: string
+    type: object
+  models.DashboardMetrics:
+    properties:
+      active_equipment:
+        type: integer
+      avg_repair_time_hrs:
+        type: number
+      completed_this_month:
+        type: integer
+      open_requests:
+        type: integer
+      overdue_schedules:
+        type: integer
+      total_equipment:
+        type: integer
+    type: object
+  models.Equipment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      installation_date:
+        type: string
+      inventory_number:
+        type: string
+      last_maintenance_date:
+        type: string
+      location:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      name:
+        type: string
+      serial_number:
+        type: string
+      status:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.MaintenanceSchedule:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      creator:
+        $ref: '#/definitions/models.User'
+      description:
+        type: string
+      equipment:
+        $ref: '#/definitions/models.Equipment'
+      equipment_id:
+        type: integer
+      id:
+        type: integer
+      interval_days:
+        type: integer
+      is_active:
+        type: boolean
+      last_performed:
+        type: string
+      next_date:
+        type: string
+      type:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.RepairRequest:
+    properties:
+      assigned_to:
+        type: integer
+      assignee:
+        $ref: '#/definitions/models.User'
+      completed_at:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: integer
+      creator:
+        $ref: '#/definitions/models.User'
+      description:
+        type: string
+      equipment:
+        $ref: '#/definitions/models.Equipment'
+      equipment_id:
+        type: integer
+      id:
+        type: integer
+      priority:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      is_active:
+        type: boolean
+      role:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  models.WorkOrder:
+    properties:
+      actual_end:
+        type: string
+      actual_start:
+        type: string
+      assigned_to:
+        type: integer
+      assignee:
+        $ref: '#/definitions/models.User'
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      planned_end:
+        type: string
+      planned_start:
+        type: string
+      repair_request:
+        $ref: '#/definitions/models.RepairRequest'
+      repair_request_id:
+        type: integer
+      schedule_id:
+        type: integer
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  response.Meta:
+    properties:
+      page:
+        type: integer
+      per_page:
+        type: integer
+      total:
+        type: integer
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      error: {}
+      meta: {}
+      success:
+        type: boolean
+    type: object
+  services.TokenPair:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API веб-приложения для управления техническим обслуживанием и ремонтом
+    оборудования предприятия
+  title: ТОиР API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Получение JWT токенов по логину и паролю
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.TokenPair'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Аутентификация пользователя
+      tags:
+      - auth
+  /dashboard:
+    get:
+      description: Получение агрегированных метрик для дашборда
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.DashboardMetrics'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Метрики дашборда
+      tags:
+      - dashboard
+  /equipment:
+    get:
+      description: Получение списка оборудования с пагинацией и фильтрами
+      parameters:
+      - default: 1
+        description: Номер страницы
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Элементов на странице
+        in: query
+        name: per_page
+        type: integer
+      - description: Фильтр по статусу
+        in: query
+        name: status
+        type: string
+      - description: Фильтр по расположению
+        in: query
+        name: location
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Equipment'
+                  type: array
+                meta:
+                  $ref: '#/definitions/response.Meta'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Список оборудования
+      tags:
+      - equipment
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новую единицу оборудования
+      parameters:
+      - description: Данные оборудования
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Equipment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Equipment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Создание оборудования
+      tags:
+      - equipment
+  /equipment/{id}:
+    delete:
+      description: Удаляет единицу оборудования по ID
+      parameters:
+      - description: ID оборудования
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Удаление оборудования
+      tags:
+      - equipment
+    get:
+      description: Возвращает оборудование по идентификатору
+      parameters:
+      - description: ID оборудования
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Equipment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Получение оборудования по ID
+      tags:
+      - equipment
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные единицы оборудования
+      parameters:
+      - description: ID оборудования
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновлённые данные
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Equipment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Equipment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Обновление оборудования
+      tags:
+      - equipment
+  /maintenance-schedules:
+    get:
+      description: Получение списка расписаний технического обслуживания с пагинацией
+      parameters:
+      - default: 1
+        description: Номер страницы
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Элементов на странице
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.MaintenanceSchedule'
+                  type: array
+                meta:
+                  $ref: '#/definitions/response.Meta'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Список расписаний ТО
+      tags:
+      - maintenance-schedules
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новое расписание планового технического обслуживания
+      parameters:
+      - description: Данные расписания
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceSchedule'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.MaintenanceSchedule'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Создание расписания ТО
+      tags:
+      - maintenance-schedules
+  /maintenance-schedules/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет расписание планового технического обслуживания
+      parameters:
+      - description: ID расписания
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновлённые данные
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.MaintenanceSchedule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.MaintenanceSchedule'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Обновление расписания ТО
+      tags:
+      - maintenance-schedules
+  /repair-requests:
+    get:
+      description: Получение списка заявок с пагинацией и фильтрами
+      parameters:
+      - default: 1
+        description: Номер страницы
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Элементов на странице
+        in: query
+        name: per_page
+        type: integer
+      - description: Фильтр по статусу
+        in: query
+        name: status
+        type: string
+      - description: Фильтр по приоритету
+        in: query
+        name: priority
+        type: string
+      - description: Фильтр по исполнителю
+        in: query
+        name: assigned_to
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.RepairRequest'
+                  type: array
+                meta:
+                  $ref: '#/definitions/response.Meta'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Список заявок на ремонт
+      tags:
+      - repair-requests
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новую заявку на ремонт оборудования
+      parameters:
+      - description: Данные заявки
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateRepairRequestInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RepairRequest'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Создание заявки на ремонт
+      tags:
+      - repair-requests
+  /repair-requests/{id}:
+    get:
+      description: Возвращает заявку на ремонт по идентификатору
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RepairRequest'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Получение заявки по ID
+      tags:
+      - repair-requests
+    put:
+      consumes:
+      - application/json
+      description: Обновляет статус или назначает исполнителя заявки
+      parameters:
+      - description: ID заявки
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Данные обновления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateRepairRequestInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Обновление заявки на ремонт
+      tags:
+      - repair-requests
+  /users:
+    get:
+      description: Получение списка всех пользователей (только admin)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.User'
+                  type: array
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Список пользователей
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Создаёт нового пользователя (только admin)
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Создание пользователя
+      tags:
+      - users
+  /users/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет данные пользователя (только admin)
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновлённые данные
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Обновление пользователя
+      tags:
+      - users
+  /work-orders:
+    get:
+      description: Получение списка наряд-заказов с пагинацией и фильтрами
+      parameters:
+      - default: 1
+        description: Номер страницы
+        in: query
+        name: page
+        type: integer
+      - default: 20
+        description: Элементов на странице
+        in: query
+        name: per_page
+        type: integer
+      - description: Фильтр по статусу
+        in: query
+        name: status
+        type: string
+      - description: Фильтр по исполнителю
+        in: query
+        name: assigned_to
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.WorkOrder'
+                  type: array
+                meta:
+                  $ref: '#/definitions/response.Meta'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Список наряд-заказов
+      tags:
+      - work-orders
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новый наряд-заказ на выполнение работ
+      parameters:
+      - description: Данные наряд-заказа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.WorkOrder'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.WorkOrder'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Создание наряд-заказа
+      tags:
+      - work-orders
+  /work-orders/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Обновляет статус наряд-заказа
+      parameters:
+      - description: ID наряд-заказа
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Новый статус
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateWorkOrderInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.WorkOrder'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - BearerAuth: []
+      summary: Обновление наряд-заказа
+      tags:
+      - work-orders
+securityDefinitions:
+  BearerAuth:
+    description: 'Введите JWT токен в формате: Bearer {token}'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

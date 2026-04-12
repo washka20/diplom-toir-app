@@ -24,19 +24,31 @@ func NewRepairRequestHandler(service *services.RepairRequestService) *RepairRequ
 
 // CreateRepairRequestInput представляет тело запроса на создание заявки.
 type CreateRepairRequestInput struct {
-	EquipmentID uint   `json:"equipment_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Priority    string `json:"priority"`
+	EquipmentID uint   `json:"equipment_id" example:"1"`
+	Title       string `json:"title" example:"Замена подшипника"`
+	Description string `json:"description" example:"Обнаружен люфт в подшипнике главного вала"`
+	Priority    string `json:"priority" example:"high"`
 }
 
 // UpdateRepairRequestInput представляет тело запроса на обновление заявки.
 type UpdateRepairRequestInput struct {
-	Status     string `json:"status"`
-	AssignedTo *uint  `json:"assigned_to"`
+	Status     string `json:"status" example:"in_progress"`
+	AssignedTo *uint  `json:"assigned_to" example:"2"`
 }
 
-// Create обрабатывает POST /api/repair-requests.
+// Create godoc
+// @Summary Создание заявки на ремонт
+// @Description Создаёт новую заявку на ремонт оборудования
+// @Tags repair-requests
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body CreateRepairRequestInput true "Данные заявки"
+// @Success 201 {object} response.Response{data=models.RepairRequest}
+// @Failure 400 {object} response.Response
+// @Failure 401 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /repair-requests [post]
 func (h *RepairRequestHandler) Create(c echo.Context) error {
 	var input CreateRepairRequestInput
 	if err := c.Bind(&input); err != nil {
@@ -66,7 +78,20 @@ func (h *RepairRequestHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response.Success(req))
 }
 
-// List обрабатывает GET /api/repair-requests.
+// List godoc
+// @Summary Список заявок на ремонт
+// @Description Получение списка заявок с пагинацией и фильтрами
+// @Tags repair-requests
+// @Produce json
+// @Security BearerAuth
+// @Param page query int false "Номер страницы" default(1)
+// @Param per_page query int false "Элементов на странице" default(20)
+// @Param status query string false "Фильтр по статусу"
+// @Param priority query string false "Фильтр по приоритету"
+// @Param assigned_to query int false "Фильтр по исполнителю"
+// @Success 200 {object} response.Response{data=[]models.RepairRequest,meta=response.Meta}
+// @Failure 500 {object} response.Response
+// @Router /repair-requests [get]
 func (h *RepairRequestHandler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	if page < 1 {
@@ -98,7 +123,17 @@ func (h *RepairRequestHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Paginated(results, page, perPage, total))
 }
 
-// GetByID обрабатывает GET /api/repair-requests/:id.
+// GetByID godoc
+// @Summary Получение заявки по ID
+// @Description Возвращает заявку на ремонт по идентификатору
+// @Tags repair-requests
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID заявки"
+// @Success 200 {object} response.Response{data=models.RepairRequest}
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Router /repair-requests/{id} [get]
 func (h *RepairRequestHandler) GetByID(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
@@ -113,7 +148,18 @@ func (h *RepairRequestHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Success(req))
 }
 
-// Update обрабатывает PUT /api/repair-requests/:id.
+// Update godoc
+// @Summary Обновление заявки на ремонт
+// @Description Обновляет статус или назначает исполнителя заявки
+// @Tags repair-requests
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID заявки"
+// @Param request body UpdateRepairRequestInput true "Данные обновления"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Router /repair-requests/{id} [put]
 func (h *RepairRequestHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {

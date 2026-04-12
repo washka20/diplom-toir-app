@@ -22,11 +22,21 @@ func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 
 // LoginRequest представляет тело запроса на вход.
 type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" example:"engineer"`
+	Password string `json:"password" example:"password123"`
 }
 
-// Login обрабатывает POST /api/auth/login.
+// Login godoc
+// @Summary Аутентификация пользователя
+// @Description Получение JWT токенов по логину и паролю
+// @Tags auth
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "Данные для входа"
+// @Success 200 {object} response.Response{data=services.TokenPair}
+// @Failure 400 {object} response.Response
+// @Failure 401 {object} response.Response
+// @Router /auth/login [post]
 func (h *AuthHandler) Login(c echo.Context) error {
 	var req LoginRequest
 	if err := c.Bind(&req); err != nil {

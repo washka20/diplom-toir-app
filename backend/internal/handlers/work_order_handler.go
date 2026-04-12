@@ -29,7 +29,23 @@ func NewWorkOrderHandler(service WorkOrderServiceInterface) *WorkOrderHandler {
 	return &WorkOrderHandler{service: service}
 }
 
-// Create обрабатывает POST /api/work-orders.
+// UpdateWorkOrderInput представляет тело запроса на обновление статуса наряд-заказа.
+type UpdateWorkOrderInput struct {
+	Status string `json:"status" example:"in_progress"`
+}
+
+// Create godoc
+// @Summary Создание наряд-заказа
+// @Description Создаёт новый наряд-заказ на выполнение работ
+// @Tags work-orders
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param request body models.WorkOrder true "Данные наряд-заказа"
+// @Success 201 {object} response.Response{data=models.WorkOrder}
+// @Failure 400 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /work-orders [post]
 func (h *WorkOrderHandler) Create(c echo.Context) error {
 	var wo models.WorkOrder
 	if err := c.Bind(&wo); err != nil {
@@ -47,7 +63,19 @@ func (h *WorkOrderHandler) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response.Success(wo))
 }
 
-// List обрабатывает GET /api/work-orders.
+// List godoc
+// @Summary Список наряд-заказов
+// @Description Получение списка наряд-заказов с пагинацией и фильтрами
+// @Tags work-orders
+// @Produce json
+// @Security BearerAuth
+// @Param page query int false "Номер страницы" default(1)
+// @Param per_page query int false "Элементов на странице" default(20)
+// @Param status query string false "Фильтр по статусу"
+// @Param assigned_to query int false "Фильтр по исполнителю"
+// @Success 200 {object} response.Response{data=[]models.WorkOrder,meta=response.Meta}
+// @Failure 500 {object} response.Response
+// @Router /work-orders [get]
 func (h *WorkOrderHandler) List(c echo.Context) error {
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	if page < 1 {
@@ -77,16 +105,25 @@ func (h *WorkOrderHandler) List(c echo.Context) error {
 	return c.JSON(http.StatusOK, response.Paginated(items, page, perPage, total))
 }
 
-// Update обрабатывает PUT /api/work-orders/:id.
+// Update godoc
+// @Summary Обновление наряд-заказа
+// @Description Обновляет статус наряд-заказа
+// @Tags work-orders
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Param id path int true "ID наряд-заказа"
+// @Param request body UpdateWorkOrderInput true "Новый статус"
+// @Success 200 {object} response.Response{data=models.WorkOrder}
+// @Failure 400 {object} response.Response
+// @Router /work-orders/{id} [put]
 func (h *WorkOrderHandler) Update(c echo.Context) error {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.Error("invalid work order id"))
 	}
 
-	var body struct {
-		Status string `json:"status"`
-	}
+	var body UpdateWorkOrderInput
 	if err := c.Bind(&body); err != nil {
 		return c.JSON(http.StatusBadRequest, response.Error("invalid request body"))
 	}

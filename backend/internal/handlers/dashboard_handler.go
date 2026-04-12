@@ -25,7 +25,15 @@ func NewDashboardHandler(service DashboardService) *DashboardHandler {
 	return &DashboardHandler{service: service}
 }
 
-// GetMetrics обрабатывает GET /api/dashboard/metrics.
+// GetMetrics godoc
+// @Summary Метрики дашборда
+// @Description Получение агрегированных метрик для дашборда
+// @Tags dashboard
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} response.Response{data=models.DashboardMetrics}
+// @Failure 500 {object} response.Response
+// @Router /dashboard [get]
 func (h *DashboardHandler) GetMetrics(c echo.Context) error {
 	metrics, err := h.service.GetMetrics(c.Request().Context())
 	if err != nil {
